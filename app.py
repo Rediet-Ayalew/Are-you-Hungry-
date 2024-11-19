@@ -123,7 +123,9 @@ def display_restaurants(businesses):
             # Use the first category title as the cuisine
             cuisine = categories[0].get("title", "No cuisine available")
 
-        print(f"Name: {name}, Address: {address}, Rating: {rating}, Website: {website}, Cuisines: {cuisine}")
+        phone = business.get("phone", "No phone available")
+
+        print(f"Name: {name}, Address: {address}, Rating: {rating}, Website: {website}, Cuisines: {cuisine}, PhoneNumber: {phone}")
 
  
 
