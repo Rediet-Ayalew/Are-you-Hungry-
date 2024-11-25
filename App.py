@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from yelp import search_restaurants
+from YelpAPI import search_restaurants
 
 #Initialize Flask app
 app = Flask(__name__)
@@ -23,32 +23,32 @@ def get_restaurants():
 
     #if no restuarants are found return an empty list
     if not restaurants:
-        return jsonify({"message": "No restuarnts found."}), 404
+        return jsonify({"message": "No restaurants found."}), 404
 
         #Otherwise, format and return the restaurant data as JSON
-        result = []
-        for business in restaurants:
-            name = business.get("name", "N/A")
-            address = ",".join(business.get("location", {}).get("display_address", []))
-            rating = business.get("rating", "N/A")
-            website = business.get("url", "No website available")
-            categories = business.get("categories", [])
-            cuisine = categories[0].get("title", "No cuisine available") if categories else "No cuisine available"
-            phone = business.get("phone", "No phone available")
+    result = []
+    for business in restaurants:
+        name = business.get("name", "N/A")
+        address = ",".join(business.get("location", {}).get("display_address", []))
+        rating = business.get("rating", "N/A")
+        website = business.get("url", "No website available")
+        categories = business.get("categories", [])
+        cuisine = categories[0].get("title", "No cuisine available") if categories else "No cuisine available"
+        phone = business.get("phone", "No phone available")
 
-            #Format the restauarant data into a dictionary
-            resturant_info = {
-                "name" : name,
-                "address" : address,
-                "rating" : rating,
-                "website" : website,
-                "categories" : categories,
-                "cuisine" : cuisine,
-                "phone" : phone
-            }
-            reuslt.append(restaurant_info)
+        #Format the restauarant data into a dictionary
+        restaurant_info = {
+            "name" : name,
+            "address" : address,
+            "rating" : rating,
+            "website" : website,
+            "categories" : categories,
+            "cuisine" : cuisine,
+            "phone" : phone
+        }
+        result.append(restaurant_info)
 
-        return jsonify(result)
+    return jsonify(result)
 
 #run the app
 if __name__ == '__main__':
