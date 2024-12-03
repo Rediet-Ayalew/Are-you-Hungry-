@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Search</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="/Home">Home</a>
+        <a href="/login">Login</a>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by cuisine or food type..." onkeyup="filterRestaurants()" />
+    </div>
+
+    <!-- Restaurant List -->
+    <div id="restaurantsList">
+        <p>Loading restaurants...</p>
+    </div>
+
+    <!-- JavaScript to Fetch and Display Data -->
+    <script>
+        // Fetch data from Flask API
+        fetch('/restaurants')
+            .then(response => response.json())
+            .then(data => {
+                const restaurantsList = document.getElementById('restaurantsList');
+                restaurantsList.innerHTML = ''; // Clear loading text
+
+                // Loop through restaurant data
+                data.forEach(restaurant => {
+                    const restaurantItem = `
+                        <div class="restaurant-item" data-cuisine="${restaurant.cuisine}">
+                            <h3>${restaurant.name}</h3>
+                            <p>Cuisine: ${restaurant.cuisine}</p>
+                            <p>Rating: ${restaurant.rating} stars</p>
+                            <p>Location: ${restaurant.address}</p>
+                            <img src="${restaurant.image}" alt="${restaurant.name} image" width="200">
+                        </div>
+                    `;
+                    restaurantsList.innerHTML += restaurantItem;
+                });
+            })
+            .catch(error => {
+                document.getElementById('restaurantsList').innerHTML = '<p>Error loading restaurants.</p>';
+                console.error('Error:', error);
+            });
+
+        // Filter function for search
+        function filterRestaurants() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const restaurants = document.querySelectorAll('.restaurant-item');
+
+            restaurants.forEach(restaurant => {
+                const cuisine = restaurant.getAttribute('data-cuisine').toLowerCase();
+                if (cuisine.includes(input)) {
+                    restaurant.style.display = '';
+                } else {
+                    restaurant.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
