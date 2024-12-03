@@ -9,13 +9,13 @@ CREATE TABLE App_users (
 );
 
 CREATE TABLE Restaurants (
-	restaurant_id INT IDENTITY(1,1) PRIMARY KEY,
 	name NVARCHAR(100) NOT NULL,
 	address NVARCHAR(MAX) NOT NULL,
 	cuisine NVARCHAR(50) NOT NULL,
 	rating FLOAT NULL,
 	phone NVARCHAR(15) NULL,
 	website NVARCHAR(MAX) NULL
+	PRIMARY KEY (name, address)
 );
 
 CREATE TABLE SearchHistory (
@@ -31,8 +31,10 @@ CREATE TABLE SearchHistory (
 
 CREATE TABLE SearchResults (
 	search_id INT FOREIGN KEY REFERENCES SearchHistory(search_id),
-	restaurant_id NVARCHAR(50) FOREIGN KEY REFERENCES Restaurants(restaurant_id),
+	restaurant_name NVACHAR(100),
+	restaurant_address NVACHAR(MAX),
 	added_at DATETIME DEFAULT GETDATE(),
-	PRIMARY KEY (search_id, restaurant_id)
+	PRIMARY KEY (search_id, restaurant_name, restaurant_address), 
+	FOREIGN KEY (restaurant_name, restaurant_address) REFERENCES Restaurants(name, address)
 );
  
