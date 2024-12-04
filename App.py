@@ -22,10 +22,13 @@ db = SQLAlchemy(app)
 
 # Define models
 class restaurant_data(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    address = db.Column(db.String(200), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(200), unique=True, nullable=False)
+    address = db.Column(db.String(200), nullable=False, )
     rating = db.Column(db.Float, nullable=False)
+    cuisine = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(15), nullable=False)
+    website = db.Column(db.String(200), nullable=False)
 
 # Create database tables
 with app.app_context():
@@ -66,13 +69,17 @@ def get_restaurants():
         new_restaurant = restaurant_data(
             name=name,
             address=address,
-            rating=rating
+            rating=rating,
+            website=website, 
+            cuisine=cuisine,
+            phone=phone
         )
 
         db.session.add(new_restaurant)
 
         #Format the restaarant data into a dictionary
         restaurant_info = {
+            "id": new_restaurant.id,
             "name" : name,
             "address" : address,
             "rating" : rating,
