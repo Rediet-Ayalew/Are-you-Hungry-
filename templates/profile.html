@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to your styles -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/restaurants">Find Restaurants</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-container">
+        <h1>Welcome, {{ user.username }}!</h1>
+
+        <div class="profile-info">
+            <h3>User Information</h3>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Favorite Cuisines:</strong> {{ user.favorite_cuisines }}</p>
+            <p><strong>Dietary Restrictions:</strong> {{ user.dietary_restrictions }}</p>
+            <p><strong>Account Created:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p><strong>Last Updated:</strong> {{ user.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+
+        <!-- Profile Update Form (Optional, if you want users to update their preferences) -->
+        <h3>Update Your Preferences</h3>
+        <form action="/users/{{ user.user_id }}" method="POST">
+            <div class="input-box">
+                <label for="favorite_cuisines">Favorite Cuisines:</label>
+                <input type="text" id="favorite_cuisines" name="favorite_cuisines" value="{{ user.favorite_cuisines }}">
+            </div>
+            <div class="input-box">
+                <label for="dietary_restrictions">Dietary Restrictions:</label>
+                <input type="text" id="dietary_restrictions" name="dietary_restrictions" value="{{ user.dietary_restrictions }}">
+            </div>
+            <button type="submit">Update Preferences</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
