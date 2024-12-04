@@ -1,0 +1,56 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="login-page">
+
+    <!-- Registration Form -->
+    <div class="login-container">
+        <form action="/register" method="POST">
+            <h1>Create an Account</h1>
+            <p style="color: red;">{{ error_message }}</p> <!-- Display error message -->
+            
+            <!-- Username Input -->
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            
+            <!-- Email Input -->
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            
+            <!-- Password Input -->
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required minlength="8">
+                <small>Password must be at least 8 characters long</small>
+            </div>
+            
+            <!-- Favorite Cuisines Input -->
+            <div class="input-box">
+                <input type="text" name="favorite_cuisines" placeholder="Favorite Cuisines (comma-separated)" required>
+            </div>
+            
+            <!-- Dietary Restrictions Input -->
+            <div class="input-box">
+                <input type="text" name="dietary_restrictions" placeholder="Dietary Restrictions (comma-separated)" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Register</button>
+
+            <!-- Login Link -->
+            <div class="register-link">
+                <p>Already have an account? <a href="/login">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

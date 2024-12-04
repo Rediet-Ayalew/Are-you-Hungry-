@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/restaurants">Restaurants</a>
+        <a href="/login">Login</a>
+    </div>
+
+    <!-- Search Bar Section -->
+    <div class="search-section">
+        <input type="text" id="searchInput" placeholder="Search by cuisine or food type..." onkeyup="filterRestaurants()" />
+    </div>
+
+    <!-- Cuisine Buttons Section -->
+    <div class="cuisine-buttons">
+        <button class="cuisine-button" onclick="loadRestaurants('American')">
+            <img src="{{ url_for('static', filename='hamburger.png') }}" alt="American" />
+            <p>American</p>
+        </button>
+        <button class="cuisine-button" onclick="loadRestaurants('Asian')">
+            <img src="{{ url_for('static', filename='sushi.png') }}" alt="Asian" />
+            <p>Asian</p>
+        </button>
+        <button class="cuisine-button" onclick="loadRestaurants('Italian')">
+            <img src="{{ url_for('static', filename='spaghetti.png') }}" alt="Italian" />
+            <p>Italian</p>
+        </button>
+        <button class="cuisine-button" onclick="loadRestaurants('Mexican')">
+            <img src="{{ url_for('static', filename='burrito.png') }}" alt="Mexican" />
+            <p>Mexican</p>
+        </button>
+        <button class="cuisine-button" onclick="loadRestaurants('Indian')">
+            <img src="{{ url_for('static', filename='curry.png') }}" alt="Indian" />
+            <p>Indian</p>
+        </button>
+        <button class="cuisine-button" onclick="loadRestaurants('Mediterranean')">
+            <img src="{{ url_for('static', filename='gyro.png') }}" alt="Mediterranean" />
+            <p>Mediterranean</p>
+        </button>
+    </div>
+    
+
+    
+    <div id="restaurants-container" class="restaurants-grid"></div>
+    <p id="error-message" style="color: red;"></p>
+    
+
+    <!-- Restaurant List Section -->
+    <div id="restaurantsList" class="restaurant-list">
+        <p>Loading restaurants...</p>
+    </div>
+
+    <div id="restaurants-container" class="restaurants-grid">
+        <!-- Restaurant data will be dynamically injected here -->
+    </div>
+    <p id="error-message" style="color: red;"></p>
+    
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript to Fetch and Display Data -->
+    <script>
+        
+            
+        // Filter function for search
+        function filterRestaurants() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const restaurants = document.querySelectorAll('.restaurant-item');
+
+            restaurants.forEach(restaurant => {
+                const cuisine = restaurant.getAttribute('data-cuisine').toLowerCase();
+                if (cuisine.includes(input)) {
+                    restaurant.style.display = '';
+                } else {
+                    restaurant.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter by cuisine function
+        function filterByCuisine(cuisine) {
+            const input = cuisine.toLowerCase();
+            const restaurants = document.querySelectorAll('.restaurant-item');
+
+            restaurants.forEach(restaurant => {
+                const restaurantCuisine = restaurant.getAttribute('data-cuisine').toLowerCase();
+                if (restaurantCuisine === input) {
+                    restaurant.style.display = '';
+                } else {
+                    restaurant.style.display = 'none';
+                }
+            });
+        }
+        function loadRestaurants(cuisine = null) {
+    const url = cuisine ? `/restaurants/api?cuisine=${cuisine}` : '/restaurants/api';
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            renderRestaurants(data);
+        })
+        .catch(error => {
+            console.error('Error loading restaurants:', error);
+            document.getElementById('error-message').innerText = "Error loading restaurants.";
+        });
+}
+
+function searchRestaurants() {
+    const searchTerm = document.getElementById('search-input').value.trim();
+
+    if (!searchTerm) {
+        document.getElementById('error-message').innerText = "Please enter a search term.";
+        return;
+    }
+
+    // Clear error message
+    document.getElementById('error-message').innerText = "";
+
+    // Fetch results based on the search term
+    fetch(`/restaurants/api?term=${searchTerm}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            renderRestaurants(data);
+        })
+        .catch(error => {
+            console.error('Error searching restaurants:', error);
+            document.getElementById('error-message').innerText = "Error searching for restaurants.";
+        });
+}
+
+
+    function renderRestaurants(restaurants) {
+        const container = document.getElementById('restaurants-container');
+        container.innerHTML = ''; // Clear existing content
+
+        if (restaurants.length === 0) {
+            container.innerHTML = '<p>No restaurants found for this cuisine.</p>';
+            return;
+        }
+
+        restaurants.forEach(restaurant => {
+            const restaurantCard = `
+                <div class="restaurant-card">
+                    <h3>${restaurant.name}</h3>
+                    <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+                    <p><strong>Address:</strong> ${restaurant.address}</p>
+                    <p><strong>Phone:</strong> ${restaurant.phone}</p>
+                    <p><strong>Rating:</strong> ${restaurant.rating} ⭐</p>
+                    <a href="${restaurant.website}" target="_blank">Visit Website</a>
+                </div>
+            `;
+            container.innerHTML += restaurantCard;
+        });
+    }
+
+// Load all restaurants when the page loads
+document.addEventListener('DOMContentLoaded', () => loadRestaurants());
+
+
+</script>
+
+
+    </script>
+</body>
+</html>
