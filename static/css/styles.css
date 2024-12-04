@@ -1,0 +1,323 @@
+/* Global Styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.topnav {
+    overflow: hidden;
+    background-color: #FF9A8B; /* Soft pink color for navigation */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 16px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.topnav a:hover {
+    background-color: #F8AFA6; /* Slightly darker pink when hovered */
+    color: #fff;
+}
+
+.topnav .active {
+    background-color: #FF6347; /* Tomato red for active link */
+    color: white;
+}
+
+/* Search Section */
+.search-section {
+    background: linear-gradient(to bottom, #FFB04B, #FF6347); /* Warm gradient */
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.search-section input {
+    padding: 15px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 500px;
+    max-width: 90%;
+  }
+
+/* Cuisine Buttons Section (Grid Layout) */
+.cuisine-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    gap: 20px;
+    margin: 40px 20px;
+  }
+  
+
+.cuisine-button {
+    background-color: #FF6347; /* Red background */
+    color: white;
+    border: 1px solid #FF6347;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cuisine-button:hover {
+    background-color: #FF4500;
+}
+
+.cuisine-button img {
+    max-width: 100%;  /* Adjust image size */
+    max-height: 150px; /* Limit the height to avoid oversized images */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.cuisine-button p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Restaurant List Styling */
+.restaurant-list {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.restaurant-item {
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.restaurant-item h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.restaurant-item p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.restaurant-item img {
+    border-radius: 5px;
+}
+
+.restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.restaurant-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.restaurant-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.2em;
+}
+
+.restaurant-card p {
+    margin: 4px 0;
+}
+
+.restaurant-card a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.restaurant-card a:hover {
+    text-decoration: underline;
+}
+
+
+/* Login Page Gradient Background */
+.login-page {
+    background: linear-gradient(to bottom right, #D1B1A8, #F0E3D2); /* Soft beige to light brown gradient */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Home Page Styling */
+.home-page {
+    background-image: url('/static/food.jpg'); /* Food background */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 40px;
+}
+.text-content {
+    max-width: 700px;
+    margin-top: 30px;
+}
+
+.text-content h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds shadow to text for better readability */
+}
+
+.text-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Adds shadow to text for better readability */
+}
+
+
+/* Login Form Container Styling */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    padding: 40px 60px;
+    border: 2px solid #FFC0CB; /* Pink border */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Login Form Heading */
+.login-container h1 {
+    margin-bottom: 20px;
+    color: #333; /* Dark text for headings */
+}
+
+/* Input Fields Styling */
+.input-box {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-box input:focus {
+    border-color: #ff6347; /* Tomato red focus color */
+}
+
+/* Remember Me and Forgot Password Section */
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-forgot a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+/* Button Styling */
+.btn {
+    background-color: #ff6347; /* Tomato red button */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #ff4500; /* Darker red on hover */
+}
+
+/* Register Link */
+.register-link {
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Additional Styling for the Form */
+input:focus {
+    border-color: #ff6347; /* Red focus border */
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #FF9A8B; /* Soft pink footer */
+    text-align: center;
+    padding: 10px 0;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .topnav {
+        font-size: 14px;
+    }
+
+    .login-container {
+        padding: 20px;
+    }
+
+    .login-container h1 {
+        font-size: 2rem;
+    }
+
+    .input-box input {
+        font-size: 1rem;
+    }
+
+    .cuisine-buttons {
+        grid-template-columns: 1fr 1fr; /* Stack buttons in 2 columns on smaller screens */
+    }
+}
