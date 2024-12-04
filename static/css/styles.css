@@ -1,3 +1,4 @@
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,6 +6,7 @@ body {
     background-color: #f9f9f9;
 }
 
+/* Header Styling */
 header {
     background-color: #333;
     color: white;
@@ -16,16 +18,19 @@ header h1 {
     margin: 0;
 }
 
+/* Navigation Bar */
 nav a {
     color: white;
     margin: 0 15px;
     text-decoration: none;
 }
 
+/* Main Content */
 main {
     padding: 20px;
 }
 
+/* Footer Styling */
 footer {
     background-color: #333;
     color: white;
@@ -36,55 +41,82 @@ footer {
     width: 100%;
 }
 
-h2 {
+/* Profile Page Styling */
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.profile-container h1 {
+    text-align: center;
     color: #333;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.profile-info {
+    margin-top: 20px;
 }
 
-li {
-    background-color: white;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.profile-info h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
 }
 
-li h3 {
-    margin: 0;
+.profile-info p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+.profile-info strong {
+    color: #333;
+}
+
+/* Form Styling for Update Preferences */
+form {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 form label {
     display: block;
     margin-top: 10px;
+    font-weight: bold;
+    color: #333;
 }
 
 form input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 1rem;
 }
 
-button {
+form button {
     background-color: #5cb85c;
     color: white;
     border: none;
     padding: 10px 20px;
-    margin-top: 10px;
+    margin-top: 15px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 1.1rem;
 }
 
-button:hover {
+form button:hover {
     background-color: #4cae4c;
 }
 
-
+/* Styling for Buttons */
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -97,3 +129,14 @@ button:hover {
 .button:hover {
     background-color: #0056b3;
 }
+
+/* Links in Profile Page */
+.profile-container a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.profile-container a:hover {
+    text-decoration: underline;
+}
+
