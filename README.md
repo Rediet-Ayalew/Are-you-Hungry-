@@ -1,6 +1,6 @@
 #Introduction
 
-Welcome to the [Project Name]! This project is a web-based application designed to simplify restaurant discovery and meal planning by leveraging the Yelp API. Users can search for restaurants, filter by cuisines, and save their preferences. It also includes features like user authentication and a personalized experience based on dietary restrictions and favorite cuisines.
+Welcome to the Are You Hungry? Project! This project is a web-based application designed to simplify restaurant discovery and meal planning by leveraging the Yelp API. Users can search for restaurants, filter by cuisines, and save their preferences. It also includes features like user authentication and a personalized experience based on dietary restrictions and favorite cuisines.
 
 Getting Started
 
