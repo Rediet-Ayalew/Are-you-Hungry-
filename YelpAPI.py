@@ -66,21 +66,34 @@ def search_restaurants(term, latitude, longitude, radius=20000, limit=50):
  
 
     try:
+        # Print out debug information
+        print(f"Requesting Yelp API with params: {params}")
+        print(f"Headers: {HEADERS}")
 
         # Make the GET request
 
         response = requests.get(BASE_URL, headers=HEADERS, params=params)
 
+        # Print out full response details
+        print(f"Response status code: {response.status_code}")
+        print(f"Response headers: {response.headers}")
+
         response.raise_for_status()  # Raise an exception for HTTP errors
+
+        # Print out raw response JSON for debugging
+        response_json = response.json()
+        print(f"Response JSON: {response_json}")
 
         return response.json().get("businesses", [])
 
  
 
     except requests.exceptions.RequestException as e:
-
-        print(f"Error during request: {e}")
-
+        print(f"Request Error: {e}")
+        print(f"Response text: {e.response.text if hasattr(e, 'response') else 'No response'}")
+        return []
+    except Exception as e:
+        print(f"Unexpected Error: {e}")
         return []
 
  
