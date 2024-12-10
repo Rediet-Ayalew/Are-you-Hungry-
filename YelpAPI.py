@@ -19,7 +19,7 @@ HEADERS = {
 
  
 
-def search_restaurants(term, latitude, longitude, radius=20000, limit=50):
+def search_restaurants(term, latitude, longitude, radius=20000, limit=100):
 
     """
 
