@@ -62,9 +62,8 @@ CUISINE_MAPPING = {
         "Mexican", "Tex-Mex", "Tacos", "Burritos", 
         "Latin American", "Central American", "Food Trucks"
     ],
-    "Indian": [
-        "Indian", "Pakistani", "Bangladeshi", 
-        "South Indian", "North Indian", "Food Stands", "Halal", "Himalayan/Nepalese", "Noodles", 
+    "Drinks": [
+        "Bar"
     ],
     "Mediterranean": [
         "Mediterranean", "Greek", "Middle Eastern", "Turkish", 
