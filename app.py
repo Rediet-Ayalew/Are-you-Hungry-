@@ -48,23 +48,23 @@ class User(db.Model):
 CUISINE_MAPPING = {
     "American": [
         "American", "New American", "Southern", "Diners", "Burgers", 
-        "Steakhouses", "Traditional American"
+        "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop"
     ],
     "Asian": [
         "Asian", "Chinese", "Japanese", "Korean", "Thai", 
-        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Asian Fusion"
+        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Sushi", "Bubble Tea"
     ],
     "Italian": [
-        "Italian", "Pasta Shops", "Tuscan", 
+        "Italian", "Pizza", "Pasta Shops", "Tuscan", 
         "Sicilian", "Trattoria"
     ],
     "Mexican": [
         "Mexican", "Tex-Mex", "Tacos", "Burritos", 
-        "Latin American", "Central American"
+        "Latin American", "Central American", "Food Trucks"
     ],
     "Indian": [
         "Indian", "Pakistani", "Bangladeshi", 
-        "South Indian", "North Indian"
+        "South Indian", "North Indian", "Food Stands", "Halal", "Himalayan/Nepalese", "Noodles", 
     ],
     "Mediterranean": [
         "Mediterranean", "Greek", "Middle Eastern", "Turkish", 
