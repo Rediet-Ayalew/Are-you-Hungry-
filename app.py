@@ -45,30 +45,30 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
 # Cuisine Mapping
-CUISINE_MAPPING = { 
+CUISINE_MAPPING = {
     "American": [
-        "american", "newamerican", "southern", "diners", 
-        "burgers", "steakhouses", "tradamerican", "hotdogs"
+        "American", "New American", "Southern", "Diners", "Burgers", 
+        "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop"
     ],
     "Asian": [
-        "asianfusion", "chinese", "japanese", "korean", 
-        "thai", "sushi", "vietnamese", "panasian", "filipino", "bubbletea"
+        "Asian", "Chinese", "Japanese", "Korean", "Thai", 
+        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Sushi", "Bubble Tea"
     ],
     "Italian": [
-        "italian", "pizza", "pastashops", "tuscan", 
-        "sicilian", "trattoria"
+        "Italian", "Pizza", "Pasta Shops", "Tuscan", 
+        "Sicilian", "Trattoria"
     ],
     "Mexican": [
-        "mexican", "tex-mex", "tacos", "burritos", 
-        "latin", "foodtrucks", "centralamerican"
+        "Mexican", "Tex-Mex", "Tacos", "Burritos", 
+        "Latin American", "Central American", "Food Trucks"
     ],
     "Indian": [
-        "indpak", "pakistani", "bangladeshi", "southindian", 
-        "northindian", "himalayan", "halal", "noodles"
+        "Indian", "Pakistani", "Bangladeshi", 
+        "South Indian", "North Indian", "Food Stands", "Halal", "Himalayan/Nepalese", "Noodles", 
     ],
     "Mediterranean": [
-        "mediterranean", "greek", "mideastern", "turkish", 
-        "lebanese", "persian", "moroccan"
+        "Mediterranean", "Greek", "Middle Eastern", "Turkish", 
+        "Lebanese", "Persian", "Moroccan"
     ],
 }
 
