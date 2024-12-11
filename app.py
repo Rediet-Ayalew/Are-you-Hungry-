@@ -52,10 +52,10 @@ CUISINE_MAPPING = {
     ],
     "Asian": [
         "Asian", "Chinese", "Japanese", "Korean", "Thai", 
-        "Sushi", "Vietnamese", "Pan Asian", "Filipino"
+        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Asian Fusion"
     ],
     "Italian": [
-        "Italian", "Pizza", "Pasta Shops", "Tuscan", 
+        "Italian", "Pasta Shops", "Tuscan", 
         "Sicilian", "Trattoria"
     ],
     "Mexican": [
