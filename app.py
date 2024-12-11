@@ -72,7 +72,7 @@ CUISINE_MAPPING = {
         "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop", "Asian", "Chinese", "Japanese", "Korean", "Thai", 
         "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Bubble Tea", "Asian Fusion", "Italian", "Pizza", "Pasta Shops", "Tuscan", 
         "Sicilian", "Trattoria", "Mexican", "Tex-Mex", "Tacos", "Burritos", 
-        "Latin American", "Central American", "Food Trucks", "Bars"
+        "Latin American", "Central American", "Food Trucks", "Bars", "Pizza"
     ],
 }
 
