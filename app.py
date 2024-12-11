@@ -88,14 +88,24 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user = User.query.filter_by(username=username).first()
+        try:
+            user = User.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user.password_hash, password):
-            session['user_id'] = user.user_id
-            session['username'] = user.username
-            return redirect(url_for('profile', user_id=user.user_id))
-        else:
-            return render_template('login.html', error_message="Invalid username or password")
+            if user and check_password_hash(user.password_hash, password):
+                # Set session variables
+                session['user_id'] = user.user_id
+                session['username'] = user.username
+                
+                # Use url_for to generate the correct URL for the profile
+                return redirect(url_for('profile', user_id=user.user_id))
+            else:
+                # Flash message for invalid credentials
+                return render_template('login.html', error_message="Invalid username or password")
+        
+        except Exception as e:
+            # Log the error and show a generic error message
+            current_app.logger.error(f"Login error: {e}")
+            return render_template('login.html', error_message="An error occurred during login")
 
     return render_template('login.html')
 
@@ -180,24 +190,42 @@ def register():
 # Route for the profile page
 @app.route('/profile/<int:user_id>')
 def profile(user_id):
-    if 'user_id' not in session or session['user_id'] != user_id:
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
+    
+    # Debug print
+    print(f"User ID in session: {session['user_id']}")
+    print(f"Requested User ID: {user_id}")
+    print(f"User info: {user.username}, {user.email}")
+    
+    # Ensure the logged-in user can only access their own profile
+    if session['user_id'] != user_id:
+        return redirect(url_for('login'))
+
+    return render_template('profile.html', user=user)
+#Route for Updating profile 
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user = User.query.get(session['user_id'])
+    
     if not user:
-        return jsonify({"message": "User not found"}), 404
-
-    user_data = {
-        "user_id": user.user_id,
-        "username": user.username,
-        "email": user.email,
-        "favorite_cuisines": user.favorite_cuisines,
-        "dietary_restrictions": user.dietary_restrictions,
-        "created_at": user.created_at,
-        "updated_at": user.updated_at
-    }
-
-    return render_template('profile.html', user=user_data)
+        return redirect(url_for('login'))
+    
+    # Update user preferences
+    user.favorite_cuisines = request.form['favorite_cuisines']
+    user.dietary_restrictions = request.form['dietary_restrictions']
+    
+    try:
+        db.session.commit()
+        return redirect(url_for('profile', user_id=user.user_id))
+    except Exception as e:
+        db.session.rollback()
+        return render_template('profile.html', user=user, error_message=str(e))
 
 # Run the app
 if __name__ == '__main__':
