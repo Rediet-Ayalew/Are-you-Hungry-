@@ -52,7 +52,7 @@ CUISINE_MAPPING = {
     ],
     "Asian": [
         "Asian", "Chinese", "Japanese", "Korean", "Thai", "Asian Fusion",
-        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Sushi", "Bubble Tea"
+        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Bubble Tea"
     ],
     "Italian": [
         "Italian", "Pizza", "Pasta Shops", "Tuscan", 
@@ -70,7 +70,7 @@ CUISINE_MAPPING = {
         "Mediterranean", "Greek", "Middle Eastern", "Turkish", 
         "Lebanese", "Persian", "Moroccan", "American", "New American", "Southern", "Diners", "Burgers", 
         "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop", "Asian", "Chinese", "Japanese", "Korean", "Thai", 
-        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Sushi", "Bubble Tea", "Asian Fusion", "Italian", "Pizza", "Pasta Shops", "Tuscan", 
+        "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Bubble Tea", "Asian Fusion", "Italian", "Pizza", "Pasta Shops", "Tuscan", 
         "Sicilian", "Trattoria", "Mexican", "Tex-Mex", "Tacos", "Burritos", 
         "Latin American", "Central American", "Food Trucks"
     ],
