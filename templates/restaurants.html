@@ -5,6 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Initially hide all cuisine sections */
+        section {
+            display: none;
+        }
+
+        /* Loading Spinner Styles */
+        .spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none; /* Start hidden */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Optional: Style for hiding spinner */
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,167 +52,177 @@
 
     <!-- Search Bar Section -->
     <div class="search-section">
-        <input type="text" id="searchInput" placeholder="Search by cuisine or food type..." onkeyup="filterRestaurants()" />
+        <input type="text" id="searchInput" placeholder="Search by cuisine or restaurant name..." />
     </div>
 
     <!-- Cuisine Buttons Section -->
     <div class="cuisine-buttons">
-        <button class="cuisine-button" onclick="loadRestaurants('American')">
+        <a href="#american-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='hamburger.png') }}" alt="American" />
             <p>American</p>
-        </button>
-        <button class="cuisine-button" onclick="loadRestaurants('Asian')">
+        </a>
+        <a href="#asian-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='sushi.png') }}" alt="Asian" />
             <p>Asian</p>
-        </button>
-        <button class="cuisine-button" onclick="loadRestaurants('Italian')">
+        </a>
+        <a href="#italian-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='spaghetti.png') }}" alt="Italian" />
             <p>Italian</p>
-        </button>
-        <button class="cuisine-button" onclick="loadRestaurants('Mexican')">
+        </a>
+        <a href="#mexican-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='burrito.png') }}" alt="Mexican" />
             <p>Mexican</p>
-        </button>
-        <button class="cuisine-button" onclick="loadRestaurants('Indian')">
+        </a>
+        <a href="#indian-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='curry.png') }}" alt="Indian" />
             <p>Indian</p>
-        </button>
-        <button class="cuisine-button" onclick="loadRestaurants('Mediterranean')">
+        </a>
+        <a href="#mediterranean-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='gyro.png') }}" alt="Mediterranean" />
             <p>Mediterranean</p>
-        </button>
-    </div>
-    
-
-    
-    <div id="restaurants-container" class="restaurants-grid"></div>
-    <p id="error-message" style="color: red;"></p>
-    
-
-    <!-- Restaurant List Section -->
-    <div id="restaurantsList" class="restaurant-list">
-        <p>Loading restaurants...</p>
+        </a>
     </div>
 
-    <div id="restaurants-container" class="restaurants-grid">
-        <!-- Restaurant data will be dynamically injected here -->
-    </div>
-    <p id="error-message" style="color: red;"></p>
-    
+    <!-- Loading Spinner -->
+    <div id="spinner" class="spinner"></div>
+
+    <!-- Restaurant Sections -->
+    <section id="american-section">
+        <h2>American</h2>
+        <div id="american-container" class="restaurants-grid"></div>
+    </section>
+
+    <section id="asian-section">
+        <h2>Asian</h2>
+        <div id="asian-container" class="restaurants-grid"></div>
+    </section>
+
+    <section id="italian-section">
+        <h2>Italian</h2>
+        <div id="italian-container" class="restaurants-grid"></div>
+    </section>
+
+    <section id="mexican-section">
+        <h2>Mexican</h2>
+        <div id="mexican-container" class="restaurants-grid"></div>
+    </section>
+
+    <section id="indian-section">
+        <h2>Indian</h2>
+        <div id="indian-container" class="restaurants-grid"></div>
+    </section>
+
+    <section id="mediterranean-section">
+        <h2>Mediterranean</h2>
+        <div id="mediterranean-container" class="restaurants-grid"></div>
+    </section>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript to Fetch and Display Data -->
+    <!-- JavaScript -->
     <script>
-        
-            
-        // Filter function for search
+        // Function to filter restaurants based on the search input
         function filterRestaurants() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const restaurants = document.querySelectorAll('.restaurant-item');
+            const query = document.getElementById('searchInput').value.toLowerCase();
 
-            restaurants.forEach(restaurant => {
-                const cuisine = restaurant.getAttribute('data-cuisine').toLowerCase();
-                if (cuisine.includes(input)) {
-                    restaurant.style.display = '';
+            let firstVisibleSection = null; // Track first visible section for scrolling
+
+            // Loop through each section and check if it matches the search query
+            document.querySelectorAll('section').forEach(section => {
+                const cuisine = section.querySelector('h2').innerText.toLowerCase();
+                if (cuisine.includes(query)) {
+                    section.style.display = 'block'; // Show section
+                    if (!firstVisibleSection) {
+                        firstVisibleSection = section; // Set the first visible section for scrolling
+                    }
                 } else {
-                    restaurant.style.display = 'none';
+                    section.style.display = 'none'; // Hide section
                 }
+            });
+
+            // Scroll to the first visible section if it exists
+            if (firstVisibleSection) {
+                firstVisibleSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Also filter individual restaurant cards within sections
+            document.querySelectorAll('.restaurants-grid').forEach(grid => {
+                let hasVisibleCard = false;
+                grid.querySelectorAll('.restaurant-card').forEach(card => {
+                    if (card.innerText.toLowerCase().includes(query)) {
+                        card.style.display = 'block';
+                        hasVisibleCard = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Show or hide the entire grid based on the presence of visible cards
+                grid.parentNode.style.display = hasVisibleCard ? 'block' : 'none';
             });
         }
 
-        // Filter by cuisine function
-        function filterByCuisine(cuisine) {
-            const input = cuisine.toLowerCase();
-            const restaurants = document.querySelectorAll('.restaurant-item');
+        // Add event listener to the search bar
+        document.getElementById('searchInput').addEventListener('input', filterRestaurants);
 
-            restaurants.forEach(restaurant => {
-                const restaurantCuisine = restaurant.getAttribute('data-cuisine').toLowerCase();
-                if (restaurantCuisine === input) {
-                    restaurant.style.display = '';
-                } else {
-                    restaurant.style.display = 'none';
-                }
+        // Function to load restaurants for a specific cuisine
+        function loadRestaurants(cuisine) {
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block';  // Show spinner while loading
+
+            fetch(`/restaurants/api?cuisine=${cuisine}`)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById(`${cuisine.toLowerCase()}-container`);
+                    container.innerHTML = ''; // Clear existing content
+                    data.forEach(restaurant => {
+                        container.innerHTML += `
+                            <div class="restaurant-card">
+                                <h3>${restaurant.name}</h3>
+                                <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+                                <p><strong>Address:</strong> ${restaurant.address}</p>
+                                <p><strong>Phone:</strong> ${restaurant.phone}</p>
+                                <p><strong>Rating:</strong> ${restaurant.rating} ⭐</p>
+                                <a href="${restaurant.website}" target="_blank">Visit Website</a>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Error loading restaurants:', error))
+                .finally(() => {
+                    spinner.style.display = 'none';  // Hide spinner once loading is complete
+                });
+        }
+
+        // Load all cuisines on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            ['American', 'Asian', 'Italian', 'Mexican', 'Indian', 'Mediterranean'].forEach(cuisine => {
+                loadRestaurants(cuisine);
             });
-        }
-        function loadRestaurants(cuisine = null) {
-    const url = cuisine ? `/restaurants/api?cuisine=${cuisine}` : '/restaurants/api';
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            renderRestaurants(data);
-        })
-        .catch(error => {
-            console.error('Error loading restaurants:', error);
-            document.getElementById('error-message').innerText = "Error loading restaurants.";
         });
-}
 
-function searchRestaurants() {
-    const searchTerm = document.getElementById('search-input').value.trim();
+        // Smooth scroll and show only the clicked cuisine section
+        document.querySelectorAll('.cuisine-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor link behavior
+                const targetId = button.getAttribute('href').substring(1); // Get the section ID
+                const targetSection = document.getElementById(targetId);
 
-    if (!searchTerm) {
-        document.getElementById('error-message').innerText = "Please enter a search term.";
-        return;
-    }
+                // Hide all sections and only show the clicked section
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
+                });
 
-    // Clear error message
-    document.getElementById('error-message').innerText = "";
+                // Show the target section
+                targetSection.style.display = 'block';
 
-    // Fetch results based on the search term
-    fetch(`/restaurants/api?term=${searchTerm}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            renderRestaurants(data);
-        })
-        .catch(error => {
-            console.error('Error searching restaurants:', error);
-            document.getElementById('error-message').innerText = "Error searching for restaurants.";
+                // Smoothly scroll to the target section
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
         });
-}
-
-
-    function renderRestaurants(restaurants) {
-        const container = document.getElementById('restaurants-container');
-        container.innerHTML = ''; // Clear existing content
-
-        if (restaurants.length === 0) {
-            container.innerHTML = '<p>No restaurants found for this cuisine.</p>';
-            return;
-        }
-
-        restaurants.forEach(restaurant => {
-            const restaurantCard = `
-                <div class="restaurant-card">
-                    <h3>${restaurant.name}</h3>
-                    <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
-                    <p><strong>Address:</strong> ${restaurant.address}</p>
-                    <p><strong>Phone:</strong> ${restaurant.phone}</p>
-                    <p><strong>Rating:</strong> ${restaurant.rating} ⭐</p>
-                    <a href="${restaurant.website}" target="_blank">Visit Website</a>
-                </div>
-            `;
-            container.innerHTML += restaurantCard;
-        });
-    }
-
-// Load all restaurants when the page loads
-document.addEventListener('DOMContentLoaded', () => loadRestaurants());
-
-
-</script>
-
-
     </script>
 </body>
 </html>
