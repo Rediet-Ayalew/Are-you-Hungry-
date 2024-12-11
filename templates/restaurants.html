@@ -73,9 +73,9 @@
             <img src="{{ url_for('static', filename='burrito.png') }}" alt="Mexican" />
             <p>Mexican</p>
         </a>
-        <a href="#indian-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='curry.png') }}" alt="Indian" />
-            <p>Indian</p>
+        <a href="#drinks-section" class="cuisine-button">
+            <img src="{{ url_for('static', filename='martini.png') }}" alt="Drinks" />
+            <p>Drinks</p>
         </a>
         <a href="#mediterranean-section" class="cuisine-button">
             <img src="{{ url_for('static', filename='gyro.png') }}" alt="Mediterranean" />
@@ -107,9 +107,9 @@
         <div id="mexican-container" class="restaurants-grid"></div>
     </section>
 
-    <section id="indian-section">
-        <h2>Indian</h2>
-        <div id="indian-container" class="restaurants-grid"></div>
+    <section id="drinks-section">
+        <h2>Drinks</h2>
+        <div id="drinks-container" class="restaurants-grid"></div>
     </section>
 
     <section id="mediterranean-section">
@@ -199,7 +199,7 @@
 
         // Load all cuisines on page load
         document.addEventListener('DOMContentLoaded', () => {
-            ['American', 'Asian', 'Italian', 'Mexican', 'Indian', 'Mediterranean'].forEach(cuisine => {
+            ['American', 'Asian', 'Italian', 'Mexican', 'Drinks', 'Mediterranean'].forEach(cuisine => {
                 loadRestaurants(cuisine);
             });
         });
