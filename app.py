@@ -51,7 +51,7 @@ CUISINE_MAPPING = {
         "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop"
     ],
     "Asian": [
-        "Asian", "Chinese", "Japanese", "Korean", "Thai", 
+        "Asian", "Asian Fusion" "Chinese", "Japanese", "Korean", "Thai", 
         "Sushi", "Vietnamese", "Pan Asian", "Filipino", "Sushi Bars", "Sushi", "Bubble Tea"
     ],
     "Italian": [
