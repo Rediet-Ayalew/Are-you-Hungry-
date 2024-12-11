@@ -4,8 +4,9 @@ import requests
 
 # Replace with your actual Yelp API Key
 
-API_KEY = "vglYxzlpvwnbD7VDU7nNM7vg_ryERVU6fryvQBajmlqdj7V6MqHXw1ijaHNNanDdUYhX5qftRu_oq_5oo9-6HQ8-MJOFPNPNnN7hr5gRyISEVg5cmrnWpch5_dk7Z3Yx"
+#API_KEY = "vglYxzlpvwnbD7VDU7nNM7vg_ryERVU6fryvQBajmlqdj7V6MqHXw1ijaHNNanDdUYhX5qftRu_oq_5oo9-6HQ8-MJOFPNPNnN7hr5gRyISEVg5cmrnWpch5_dk7Z3Yx"
  
+API_KEY = "z_xGVa7v2WkY1KrW-K7Anf0Nzz-_QYJ6D1Az71VxK4YyqVlPo85dOixKOGZaININHmOCbVzKYfXtBVUH9Ca-VIeI_CZ42DiJWTvrv5t70HzLS_5pUwPPFegARdhZZ3Yx"
 
 # Define constants
 
