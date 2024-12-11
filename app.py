@@ -56,7 +56,7 @@ CUISINE_MAPPING = {
     ],
     "Italian": [
         "Italian", "Pasta Shops", "Tuscan", 
-        "Sicilian", "Trattoria", "Beer Bars"
+        "Sicilian", "Trattoria", "Beer Bar"
     ],
     "Mexican": [
         "Mexican", "Tex-Mex", "Tacos", "Burritos", 
