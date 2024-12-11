@@ -48,7 +48,7 @@ class User(db.Model):
 CUISINE_MAPPING = {
     "American": [
         "American", "New American", "Southern", "Diners", "Burgers", 
-        "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop", "Bars"
+        "Steakhouses", "Traditional American", "Fast Food", "Chicken Shop"
     ],
     "Asian": [
         "Asian", "Chinese", "Japanese", "Korean", "Thai", "Asian Fusion",
