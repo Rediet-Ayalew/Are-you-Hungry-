@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from YelpAPI import search_restaurants
+import pyodbc
 
 
 # Initialize Flask app
@@ -20,7 +21,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"mssql+pyodbc://{DATABASE_CONFIG['username']}:{DATABASE_CONFIG['password']}"
     f"@{DATABASE_CONFIG['server']}/{DATABASE_CONFIG['database']}?driver={DATABASE_CONFIG['driver']}"
 )
-
+conn = pyodbc.connect(
+    "DRIVER={/opt/homebrew/Cellar/msodbcsql18/18.4.1.1/lib/libmsodbcsql.18.dylib};"
+    "SERVER=sqlserverndibalekeralynette01.database.windows.net;"
+    "DATABASE=sqldbndibalekeralynette01;"
+    "UID=sqlserveradmin;"
+    "PWD=Password123;"
+)
 db = SQLAlchemy(app)
 
 # Define models
