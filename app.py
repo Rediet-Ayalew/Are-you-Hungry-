@@ -1,13 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, current_app
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, current_app, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from YelpAPI import search_restaurants
 import pyodbc
 
-
 # Initialize Flask app
 app = Flask(__name__)
-
+app.secret_key = 'password_secret_key_123'
 # Database Configuration
 DATABASE_CONFIG = {
     'server': 'sqlserverndibalekeralynette01.database.windows.net',
@@ -21,6 +20,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"mssql+pyodbc://{DATABASE_CONFIG['username']}:{DATABASE_CONFIG['password']}"
     f"@{DATABASE_CONFIG['server']}/{DATABASE_CONFIG['database']}?driver={DATABASE_CONFIG['driver']}"
 )
+
 conn = pyodbc.connect(
     "DRIVER={/opt/homebrew/Cellar/msodbcsql18/18.4.1.1/lib/libmsodbcsql.18.dylib};"
     "SERVER=sqlserverndibalekeralynette01.database.windows.net;"
@@ -28,6 +28,7 @@ conn = pyodbc.connect(
     "UID=sqlserveradmin;"
     "PWD=Password123;"
 )
+
 db = SQLAlchemy(app)
 
 # Define models
@@ -46,11 +47,12 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)  # Store hashed password
-    favorite_cuisines = db.Column(db.Text)  # Store as JSON or comma-separated values
-    dietary_restrictions = db.Column(db.Text)  # Store as JSON or comma-separated values
+    password_hash = db.Column(db.String(128), nullable=False)
+    favorite_cuisines = db.Column(db.Text)
+    dietary_restrictions = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
 
 # Cuisine Mapping
 CUISINE_MAPPING = {
@@ -85,7 +87,7 @@ CUISINE_MAPPING = {
 }
 
 # Route for the homepage
-@app.route('/')
+@app.route('/home')
 def home():
     return render_template('home.html')
 
@@ -103,7 +105,8 @@ def login():
                 # Set session variables
                 session['user_id'] = user.user_id
                 session['username'] = user.username
-                
+                print(f"Session: {session}")
+
                 # Use url_for to generate the correct URL for the profile
                 return redirect(url_for('profile', user_id=user.user_id))
             else:
@@ -116,7 +119,11 @@ def login():
             return render_template('login.html', error_message="An error occurred during login")
 
     return render_template('login.html')
-
+#app route for log out 
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear the session
+    return redirect(url_for('login'))
 # Route for the restaurants page
 @app.route('/restaurants', methods=['GET'])
 def restaurants():
@@ -189,37 +196,38 @@ def register():
         try:
             db.session.add(new_user)
             db.session.commit()
-
-            # Log in the user automatically after registration
-            session['user_id'] = new_user.user_id
-            session['username'] = new_user.username
-
-            # Redirect to the profile page
-            return redirect(url_for('profile', user_id=new_user.user_id))
+            return redirect(url_for('login'))
         except Exception as e:
             return render_template('register.html', error_message=str(e))
 
     return render_template('register.html')
 
-
 # Route for the profile page
 @app.route('/profile/<int:user_id>')
 def profile(user_id):
+    # Check if the user is logged in
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user = User.query.get_or_404(user_id)
+    # Retrieve the user from the database
+    user = User.query.get(user_id)
     
-    # Debug print
+    # Handle the case where the user is not found
+    if not user:
+        return render_template('404.html'), 404
+
+    # Debugging information
     print(f"User ID in session: {session['user_id']}")
     print(f"Requested User ID: {user_id}")
     print(f"User info: {user.username}, {user.email}")
-    
-    # Ensure the logged-in user can only access their own profile
-    if session['user_id'] != user_id:
-        return redirect(url_for('login'))
 
+    # Ensure that the logged-in user can only access their own profile
+    if session['user_id'] != user_id:
+        return redirect(url_for('profile', user_id=session['user_id']))
+
+    # Render the profile template
     return render_template('profile.html', user=user)
+
 #Route for Updating profile 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
@@ -245,3 +253,4 @@ def update_profile():
 # Run the app
 if __name__ == '__main__':
     app.run(debug=True)
+
