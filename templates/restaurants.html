@@ -42,187 +42,192 @@
     </style>
 </head>
 <body>
-
     <!-- Navigation Bar -->
-    <div class="topnav">
-        <a href="/">Home</a>
-        <a class="active" href="/restaurants">Restaurants</a>
-        <a href="/login">Login</a>
-    </div>
+    <nav class="topnav">
+        <a href="/home">Home</a>
+        <a href="/restaurants">Restaurants</a>
+        {% if 'user_id' in session %}
+            <a href="/profile/{{ session['user_id'] }}">Profile</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+    </nav>
+    
+<!-- Search Bar Section -->
+<div class="search-section">
+    <input type="text" id="searchInput" placeholder="Search by cuisine or restaurant name..." />
+</div>
 
-    <!-- Search Bar Section -->
-    <div class="search-section">
-        <input type="text" id="searchInput" placeholder="Search by cuisine or restaurant name..." />
-    </div>
+<!-- Cuisine Buttons Section -->
+<div class="cuisine-buttons">
+    <a href="#american-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='hamburger.png') }}" alt="American" />
+        <p>American</p>
+    </a>
+    <a href="#asian-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='sushi.png') }}" alt="Asian" />
+        <p>Asian</p>
+    </a>
+    <a href="#italian-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='spaghetti.png') }}" alt="Italian" />
+        <p>Italian</p>
+    </a>
+    <a href="#mexican-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='burrito.png') }}" alt="Mexican" />
+        <p>Mexican</p>
+    </a>
+    <a href="#mediterranean-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='gyro.png') }}" alt="Mediterranean" />
+        <p>Mediterranean</p>
+    </a>
+    <a href="#all-section" class="cuisine-button">
+        <img src="{{ url_for('static', filename='hungry.png') }}" alt="All" />
+        <p>All</p>
+    </a>
+</div>
 
-    <!-- Cuisine Buttons Section -->
-    <div class="cuisine-buttons">
-        <a href="#american-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='hamburger.png') }}" alt="American" />
-            <p>American</p>
-        </a>
-        <a href="#asian-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='sushi.png') }}" alt="Asian" />
-            <p>Asian</p>
-        </a>
-        <a href="#italian-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='spaghetti.png') }}" alt="Italian" />
-            <p>Italian</p>
-        </a>
-        <a href="#mexican-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='burrito.png') }}" alt="Mexican" />
-            <p>Mexican</p>
-        </a>
-        <a href="#mediterranean-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='gyro.png') }}" alt="Mediterranean" />
-            <p>Mediterranean</p>
-        </a>
-        <a href="#all-section" class="cuisine-button">
-            <img src="{{ url_for('static', filename='hungry.png') }}" alt="All" />
-            <p>All</p>
-        </a>
-    </div>
+<!-- Loading Spinner -->
+<div id="spinner" class="spinner"></div>
 
-    <!-- Loading Spinner -->
-    <div id="spinner" class="spinner"></div>
+<!-- Restaurant Sections -->
+<section id="american-section">
+    <h2>American</h2>
+    <div id="american-container" class="restaurants-grid"></div>
+</section>
 
-    <!-- Restaurant Sections -->
-    <section id="american-section">
-        <h2>American</h2>
-        <div id="american-container" class="restaurants-grid"></div>
-    </section>
+<section id="asian-section">
+    <h2>Asian</h2>
+    <div id="asian-container" class="restaurants-grid"></div>
+</section>
 
-    <section id="asian-section">
-        <h2>Asian</h2>
-        <div id="asian-container" class="restaurants-grid"></div>
-    </section>
+<section id="italian-section">
+    <h2>Italian</h2>
+    <div id="italian-container" class="restaurants-grid"></div>
+</section>
 
-    <section id="italian-section">
-        <h2>Italian</h2>
-        <div id="italian-container" class="restaurants-grid"></div>
-    </section>
+<section id="mexican-section">
+    <h2>Mexican</h2>
+    <div id="mexican-container" class="restaurants-grid"></div>
+</section>
 
-    <section id="mexican-section">
-        <h2>Mexican</h2>
-        <div id="mexican-container" class="restaurants-grid"></div>
-    </section>
+<section id="mediterranean-section">
+    <h2>Mediterranean</h2>
+    <div id="mediterranean-container" class="restaurants-grid"></div>
+</section>
 
-    <section id="mediterranean-section">
-        <h2>Mediterranean</h2>
-        <div id="mediterranean-container" class="restaurants-grid"></div>
-    </section>
+<section id="all-section">
+    <h2>All</h2>
+    <div id="all-container" class="restaurants-grid"></div>
+</section>
 
-    <section id="all-section">
-        <h2>All</h2>
-        <div id="all-container" class="restaurants-grid"></div>
-    </section>
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+</footer>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
-    </footer>
+<!-- JavaScript -->
+<script>
+    // Function to filter restaurants based on the search input
+    function filterRestaurants() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
 
-    <!-- JavaScript -->
-    <script>
-        // Function to filter restaurants based on the search input
-        function filterRestaurants() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
+        let firstVisibleSection = null; // Track first visible section for scrolling
 
-            let firstVisibleSection = null; // Track first visible section for scrolling
+        // Loop through each section and check if it matches the search query
+        document.querySelectorAll('section').forEach(section => {
+            const cuisine = section.querySelector('h2').innerText.toLowerCase();
+            if (cuisine.includes(query)) {
+                section.style.display = 'block'; // Show section
+                if (!firstVisibleSection) {
+                    firstVisibleSection = section; // Set the first visible section for scrolling
+                }
+            } else {
+                section.style.display = 'none'; // Hide section
+            }
+        });
 
-            // Loop through each section and check if it matches the search query
-            document.querySelectorAll('section').forEach(section => {
-                const cuisine = section.querySelector('h2').innerText.toLowerCase();
-                if (cuisine.includes(query)) {
-                    section.style.display = 'block'; // Show section
-                    if (!firstVisibleSection) {
-                        firstVisibleSection = section; // Set the first visible section for scrolling
-                    }
+        // Scroll to the first visible section if it exists
+        if (firstVisibleSection) {
+            firstVisibleSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Also filter individual restaurant cards within sections
+        document.querySelectorAll('.restaurants-grid').forEach(grid => {
+            let hasVisibleCard = false;
+            grid.querySelectorAll('.restaurant-card').forEach(card => {
+                if (card.innerText.toLowerCase().includes(query)) {
+                    card.style.display = 'block';
+                    hasVisibleCard = true;
                 } else {
-                    section.style.display = 'none'; // Hide section
+                    card.style.display = 'none';
                 }
             });
 
-            // Scroll to the first visible section if it exists
-            if (firstVisibleSection) {
-                firstVisibleSection.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            // Also filter individual restaurant cards within sections
-            document.querySelectorAll('.restaurants-grid').forEach(grid => {
-                let hasVisibleCard = false;
-                grid.querySelectorAll('.restaurant-card').forEach(card => {
-                    if (card.innerText.toLowerCase().includes(query)) {
-                        card.style.display = 'block';
-                        hasVisibleCard = true;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                // Show or hide the entire grid based on the presence of visible cards
-                grid.parentNode.style.display = hasVisibleCard ? 'block' : 'none';
-            });
-        }
-
-        // Add event listener to the search bar
-        document.getElementById('searchInput').addEventListener('input', filterRestaurants);
-
-        // Function to load restaurants for a specific cuisine
-        function loadRestaurants(cuisine) {
-            const spinner = document.getElementById('spinner');
-            spinner.style.display = 'block';  // Show spinner while loading
-
-            fetch(`/restaurants/api?cuisine=${cuisine}`)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById(`${cuisine.toLowerCase()}-container`);
-                    container.innerHTML = ''; // Clear existing content
-                    data.forEach(restaurant => {
-                        container.innerHTML += `
-                            <div class="restaurant-card">
-                                <h3>${restaurant.name}</h3>
-                                <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
-                                <p><strong>Address:</strong> ${restaurant.address}</p>
-                                <p><strong>Phone:</strong> ${restaurant.phone}</p>
-                                <p><strong>Rating:</strong> ${restaurant.rating} ⭐</p>
-                                <a href="${restaurant.website}" target="_blank">Visit Website</a>
-                            </div>
-                        `;
-                    });
-                })
-                .catch(error => console.error('Error loading restaurants:', error))
-                .finally(() => {
-                    spinner.style.display = 'none';  // Hide spinner once loading is complete
-                });
-        }
-
-        // Load all cuisines on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            ['American', 'Asian', 'Italian', 'Mexican','Mediterranean', 'All'].forEach(cuisine => {
-                loadRestaurants(cuisine);
-            });
+            // Show or hide the entire grid based on the presence of visible cards
+            grid.parentNode.style.display = hasVisibleCard ? 'block' : 'none';
         });
+    }
 
-        // Smooth scroll and show only the clicked cuisine section
-        document.querySelectorAll('.cuisine-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor link behavior
-                const targetId = button.getAttribute('href').substring(1); // Get the section ID
-                const targetSection = document.getElementById(targetId);
+    // Add event listener to the search bar
+    document.getElementById('searchInput').addEventListener('input', filterRestaurants);
 
-                // Hide all sections and only show the clicked section
-                document.querySelectorAll('section').forEach(section => {
-                    section.style.display = 'none';
+    // Function to load restaurants for a specific cuisine
+    function loadRestaurants(cuisine) {
+        const spinner = document.getElementById('spinner');
+        spinner.style.display = 'block';  // Show spinner while loading
+
+        fetch(`/restaurants/api?cuisine=${cuisine}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById(`${cuisine.toLowerCase()}-container`);
+                container.innerHTML = ''; // Clear existing content
+                data.forEach(restaurant => {
+                    container.innerHTML += `
+                        <div class="restaurant-card">
+                            <h3>${restaurant.name}</h3>
+                            <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+                            <p><strong>Address:</strong> ${restaurant.address}</p>
+                            <p><strong>Phone:</strong> ${restaurant.phone}</p>
+                            <p><strong>Rating:</strong> ${restaurant.rating} ⭐</p>
+                            <a href="${restaurant.website}" target="_blank">Visit Website</a>
+                        </div>
+                    `;
                 });
-
-                // Show the target section
-                targetSection.style.display = 'block';
-
-                // Smoothly scroll to the target section
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => console.error('Error loading restaurants:', error))
+            .finally(() => {
+                spinner.style.display = 'none';  // Hide spinner once loading is complete
             });
+    }
+
+    // Load all cuisines on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        ['American', 'Asian', 'Italian', 'Mexican','Mediterranean', 'All'].forEach(cuisine => {
+            loadRestaurants(cuisine);
         });
-    </script>
+    });
+
+    // Smooth scroll and show only the clicked cuisine section
+    document.querySelectorAll('.cuisine-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor link behavior
+            const targetId = button.getAttribute('href').substring(1); // Get the section ID
+            const targetSection = document.getElementById(targetId);
+
+            // Hide all sections and only show the clicked section
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the target section
+            targetSection.style.display = 'block';
+
+            // Smoothly scroll to the target section
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
 </body>
 </html>
+
