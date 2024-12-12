@@ -188,11 +188,18 @@ def register():
         try:
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('login'))
+
+            # Log in the user automatically after registration
+            session['user_id'] = new_user.user_id
+            session['username'] = new_user.username
+
+            # Redirect to the profile page
+            return redirect(url_for('profile', user_id=new_user.user_id))
         except Exception as e:
             return render_template('register.html', error_message=str(e))
 
     return render_template('register.html')
+
 
 # Route for the profile page
 @app.route('/profile/<int:user_id>')
