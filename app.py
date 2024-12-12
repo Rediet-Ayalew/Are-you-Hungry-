@@ -87,9 +87,10 @@ CUISINE_MAPPING = {
 }
 
 # Route for the homepage
+@app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('home.html')  # Ensure you have a home.html file in the templates folder
 
 # Route for the login page
 @app.route('/login', methods=['GET', 'POST'])
