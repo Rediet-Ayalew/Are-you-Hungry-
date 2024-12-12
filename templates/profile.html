@@ -7,25 +7,30 @@
     <link rel="stylesheet" href="/static/css/styles.css"> <!-- Link to the external CSS -->
 </head>
 <body>
-    !-- Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="topnav">
         <a href="/home">Home</a>
         <a href="/restaurants">Restaurants</a>
-        <a href="/profile">Profile</a>
+        {% if 'user_id' in session %}
+            <a href="/profile/{{ session['user_id'] }}">Profile</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
     </nav>
-
+    
     <!-- Profile Card -->
     <div class="profile-card">
         <div class="profile-header">
-            <img src="{{ url_for('static', filename='pfp.png') }} alt="Profile Picture" class="profile-image">
-        </div>
+            <img src="{{ url_for('static', filename='pfp.png') }}" alt="Profile Picture" class="profile-image">
+        </div>       
         <div class="profile-content">
             <h1>Welcome, {{ user.username }}!</h1>
             <p><strong>Email:</strong> {{ user.email }}</p>
             <p><strong>Favorite Cuisines:</strong> {{ favorite_cuisines or 'Not specified' }}</p>
             <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions or 'None' }}</p>
-            <p><strong>Account Created:</strong> {{ created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-            <p><strong>Last Updated:</strong> {{ updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p><strong>Account Created:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p><strong>Last Updated:</strong> {{ user.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
         </div>
 
         <!-- Profile Actions -->
