@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 )
 
 conn = pyodbc.connect(
-    "DRIVER={/opt/homebrew/Cellar/msodbcsql18/18.4.1.1/lib/libmsodbcsql.18.dylib};"
+    "DRIVER={ODBC Driver 18 for SQL Server};"
     "SERVER=sqlserverndibalekeralynette01.database.windows.net;"
     "DATABASE=sqldbndibalekeralynette01;"
     "UID=sqlserveradmin;"
