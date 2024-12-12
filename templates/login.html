@@ -9,11 +9,17 @@
 <body>
 
     <!-- Navigation Bar -->
-    <div class="topnav">
+    <nav class="topnav">
         <a href="/home">Home</a>
         <a href="/restaurants">Restaurants</a>
-        <a class="active" href="#login">Login</a>
-    </div>
+        {% if 'user_id' in session %}
+            <a href="/profile/{{ session['user_id'] }}">Profile</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+    </nav>
+    
 
     <!-- Login Form Container -->
     <div class="login-page">
@@ -42,3 +48,4 @@
 
 </body>
 </html>
+
