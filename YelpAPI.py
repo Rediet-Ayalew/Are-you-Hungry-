@@ -22,7 +22,7 @@ HEADERS = {
 
  
 
-def search_restaurants(term, latitude, longitude, radius=20000, limit=100):
+def search_restaurants(term, latitude, longitude, radius=161000, limit=200):
 
     """
 
@@ -155,9 +155,9 @@ if __name__ == "__main__":
 
     longitude = -93.598022
 
-    radius = 40000  # almost 20 miles in meters
+    radius = 161000  # almost 100 miles in meters
 
-    limit = 10      # Max results per request
+    limit = 20      # Max results per request
 
  
 
