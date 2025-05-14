@@ -1,35 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+:root {
+    --background-color: #ffffff; /* Default background color */
+    --login-box-color: rgba(255, 255, 255, 0.2); /* Default box color */
+    --login-header-color: #000000; /* black text */
+    --login-text-color: #ffffff; /* white text */
+    --restaurant-text-color: #333333; /* Default text color */
+    --rating-box: #ffffff; /* Default rating box color */
+}
+
+
 /* Global Styles */
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    background-color:var(--background-color); /* Default background color */
+    color:var(--text-color); /* Default text color */
+    font-family: "Open Sans", sans-serif;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for dark mode */
 }
 
-/* Navigation Bar */
+body.dark-mode {
+    --background-color: #000000;
+    --login-box-color: rgba(82, 81, 81, 0.2);
+    --login-header-color: #ffffff; 
+    --login-text-color: #fff; /* Default text color for login form */
+    --restaurant-text-color: #fff;
+    --rating-box:#333333; 
+}
+
+/* Navbar container */
 .topnav {
-    overflow: hidden;
-    background-color: #FF9A8B; /* Soft pink color for navigation */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 10px;
 }
-
-.topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 16px 20px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.topnav a:hover {
-    background-color: #F8AFA6; /* Slightly darker pink when hovered */
-    color: #fff;
-}
-
-.topnav .active {
-    background-color: #FF6347; /* Tomato red for active link */
+.dark-mode .topnav {
+    background-color: #1e1e1e;
     color: white;
+}
+
+.dark-mode .topnav a {
+    color: white;
+}
+
+.dark-mode .topnav a:hover {
+    background-color: #333;
+}
+
+/* Dropdown button */
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dark-mode .dropbtn {
+    background-color: #2c2c2c;
+    color: white;
+}
+
+.dark-mode .dropdown-content {
+    background-color: #1e1e1e;
+}
+
+.dark-mode .dropdown-content a {
+    color: white;
+}
+
+.dark-mode .dropdown-content a:hover {
+    background-color: #333;
+}
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    z-index: 1000; /* Lower the z-index to ensure the switch is above it */
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Links inside dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px; /* this gives the “indent” feel */
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s, padding-left 0.3s; /* smooth transition */
+}
+
+/* Hover effect on links */
+.dropdown-content a:hover {
+    background-color: #ddd;
+    padding-left: 20px; /* this creates the “indent” on hover */
+}
+
+/* Show dropdown on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+    padding-left: 20px; /* this creates the “indent” on hover */
+}
+
+/* Change button background on hover */
+.dropdown:hover .dropbtn {
+    background-color: #f0f0f0;
+}
+
+
+/*Dark and light mode*/
+/*The switch*/
+/* Create the switch label */
+.switch {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: inline-block;
+    width: 45px;
+    height: 24px;
+    z-index: 2000; /* Set a higher z-index to make sure it's on top */
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
 
 /* Search Section */
@@ -99,7 +232,7 @@ body {
 }
 
 .restaurant-item {
-    background-color: white;
+    background-color: var(--reasturant-background-color);
     padding: 20px;
     margin: 10px;
     border-radius: 10px;
@@ -160,61 +293,128 @@ body {
 
 /* Login Page Gradient Background */
 .login-page {
-    background: linear-gradient(to bottom right, #D1B1A8, #F0E3D2); /* Soft beige to light brown gradient */
+    background: linear-gradient(to bottom right, #FFFAFA, #FFFAFA); /* Soft beige to light brown gradient */
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+
 /* Home Page Styling */
 .home-page {
-    background-image: url('/static/food.jpg'); /* Food background */
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    background: none;
     color: white;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     height: 100vh;
     padding: 40px;
+    overflow: hidden;
 }
+
+.home-page::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/food.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+    z-index: -1;
+}
+
 .text-content {
     max-width: 700px;
     margin-top: 30px;
+    background-color: rgba(0, 0, 0, 0.6); /* semi-transparent dark background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
 }
 
 .text-content h2 {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds shadow to text for better readability */
+    color: white;
+    text-shadow: none; /* no need since we have a dark background */
 }
 
 .text-content p {
     font-size: 1.2rem;
     line-height: 1.6;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Adds shadow to text for better readability */
+    color: white;
+    text-shadow: none;
 }
+
+
 
 
 /* Login Form Container Styling */
+/*dark and light mode*/
 .login-container {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-    padding: 40px 60px;
-    border: 2px solid #FFC0CB; /* Pink border */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    border-radius: 16px;
+    padding: 30px;
     text-align: center;
-    max-width: 400px;
-    width: 100%;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(5px);
+    background-color: var(--login-box-color);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
+
+
+.login-page {
+    position: relative; /* important for the pseudo-element to work */
+    background: none; /* remove the old linear-gradient */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* make sure nothing spills outside */
+
+}
+
+.login-page::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/login-bg.jpg'); /* your image */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
 
 /* Login Form Heading */
 .login-container h1 {
+    font-size: 2rem;
     margin-bottom: 20px;
-    color: #333; /* Dark text for headings */
+    color: var(--login-header-color); /* 💥 this uses the header color var */
 }
+.input-field label {
+  color: var(--login-text-color);
+}
+.input-field input {
+  color: var(--login-text-color);
+}
+.forget {
+  color: var(--login-text-color);
+}
+.wrapper {
+  background-color: var(--login-box-color);
+}
+
+
 
 /* Input Fields Styling */
 .input-box {
@@ -224,14 +424,19 @@ body {
 
 .input-box input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    color: var(--login-text-color);
 }
 
 .input-box input:focus {
     border-color: #ff6347; /* Tomato red focus color */
 }
+
 
 /* Remember Me and Forgot Password Section */
 .remember-forgot {
@@ -250,22 +455,53 @@ body {
     text-decoration: underline;
 }
 
+/* Recommendations button*/
+.topnav .recommendations-btn {
+    display: inline-block;
+    background-color: #004477; /* Drake Blue */
+    padding: 16px 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: none;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.recommendations-btn:hover {
+    background-color: #58819f; /* Lighter Blue */
+    transition: 0.3s;
+}
+
 /* Button Styling */
 .btn {
-    background-color: #ff6347; /* Tomato red button */
-    color: white;
+    background: #fff;
+    color: #000;
+    font-weight: 600;
     border: none;
     padding: 12px 20px;
-    margin-top: 15px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 1.1rem;
+    border-radius: 3px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
     width: 100%;
 }
 
 .btn:hover {
-    background-color: #ff4500; /* Darker red on hover */
+    color: #fff;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.15);
 }
+
+/* Make save profile button black when hovered in light mode */
+body:not(.dark-mode) .btn:hover {
+    background: #fff; /* Black background */
+    color: #000;      /* Keep the text white for contrast */
+    border-color: #000; /* Optional: border also black */
+}
+
 
 /* Register Link */
 .register-link {
@@ -281,16 +517,37 @@ body {
     text-decoration: underline;
 }
 
+/* Profile Page Styling */
+.profile-page {
+    position: relative;
+    background: rgba(255, 255, 255, 0.2);
+    background-image: url('/static/profile-bg.jpg');
+    background-size: cover;         /* Make sure it fills the area */
+    background-position: center;   /* Center the image */
+    background-repeat: no-repeat;  /* Prevent tiling */
+    background-attachment: fixed;
+    min-height: 100vh;             /* Fill at least the viewport height */
+    width: 100%;                   /* Fill width */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
 /* Profile Card Styling */
 .profile-card {
-    background: linear-gradient(to right, #ff9a9e, #fad0c4); /* Gradient background */
+    background: rgba(255, 255, 255, 0.2); /* semi-transparent background */
     border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     max-width: 400px;
     margin: 40px auto;
     text-align: center;
     padding: 20px;
-    color: #333;
+    color: #000000;
     font-family: Arial, sans-serif;
 }
 
@@ -329,7 +586,7 @@ body {
 .profile-stats h3 {
     margin: 0;
     font-size: 1.2em;
-    color: #ff6347;
+    color: #004477;
 }
 
 .profile-stats p {
@@ -347,7 +604,7 @@ body {
 }
 
 .explore-btn, .update-btn {
-    background-color: #ff9a9e; /* Soft gradient color */
+    background-color: #58819f; /* Soft blue gradient color */
     border: none;
     color: white;
     border-radius: 5px;
@@ -360,16 +617,16 @@ body {
 }
 
 .explore-btn:hover {
-    background-color: #fad0c4; /* Light gradient hover */
+    background-color: #bcd7eb; /* Lighter blue gradient hover */
 }
 
 .update-btn:hover {
-    background-color: #ff6347; /* Tomato red */
+    background-color: #004477; /* Drake blue */
 }
 
 /* Additional Styling for the Form */
 input:focus {
-    border-color: #ff6347; /* Red focus border */
+    border-color: #58819f; /* Light Blue focus border */
 }
 
 button:focus {
@@ -378,7 +635,7 @@ button:focus {
 
 /* Footer Styling */
 footer {
-    background-color: #FF9A8B; /* Soft pink footer */
+    background-color: #004477; /* Drake blue footer */
     text-align: center;
     padding: 10px 0;
     color: #fff;
@@ -407,3 +664,68 @@ footer {
         grid-template-columns: 1fr 1fr; /* Stack buttons in 2 columns on smaller screens */
     }
 }
+
+/*5 star rating*/
+.hidden {
+    display: none;
+}
+
+.show-popup {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--rating-box); /* Default rating box color */
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star:hover {
+    transform: scale(1.2);
+    color: #FFD700; /* Gold color */
+}
+
+/* Highlight selected stars */
+.star.active {
+    color: #FFD700; /* Gold color when selected */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+#success-message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+} 
