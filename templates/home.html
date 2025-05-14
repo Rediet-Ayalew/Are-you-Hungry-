@@ -10,16 +10,20 @@
 
     <!-- Navigation Bar -->
     <nav class="topnav">
-        <a href="/home">Home</a>
-        <a href="/restaurants">Restaurants</a>
-        {% if 'user_id' in session %}
-            <a href="/profile/{{ session['user_id'] }}">Profile</a>
-            <a href="/logout">Logout</a>
-        {% else %}
-            <a href="/login">Login</a>
-        {% endif %}
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="/home">Home</a>
+                <a href="/restaurants">Restaurants</a>
+                {% if 'user_id' in session %}
+                    <a href="/profile/{{ session['user_id'] }}">Profile</a>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        </div>
     </nav>
-    
 
     <!-- Content Block (Home Page) -->
     <div class="home-page">
@@ -28,9 +32,8 @@
             <p>Welcome to our platform, where discovering your next favorite meal is effortless! Simply explore your options and let us guide you to a delightful dining experience. For a more personalized touch, sign up to save your preferences and streamline your future visits. Enjoy!</p>
         </div>
     </div>
-
     <footer>
-        <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+        <p>&copy; 2024-2025 Are You Hungry? All rights reserved.</p>
     </footer>
 
 </body>
