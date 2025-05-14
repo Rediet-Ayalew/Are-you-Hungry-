@@ -3,34 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="/static/css/styles.css"> <!-- Link to the external CSS -->
+    <script defer src="/static/css/scripts.js"></script> <!-- Link to external JS -->
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="topnav">
-        <a href="/home">Home</a>
-        <a href="/restaurants">Restaurants</a>
-        {% if 'user_id' in session %}
-            <a href="/profile/{{ session['user_id'] }}">Profile</a>
-            <a href="/logout">Logout</a>
-        {% else %}
-            <a href="/login">Login</a>
-        {% endif %}
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="/home">Home</a>
+                <a href="/restaurants">Restaurants</a>
+                {% if 'user_id' in session %}
+                    <a href="/profile/{{ session['user_id'] }}">Profile</a>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        </div>
     </nav>
-    
+
+    <!-- Rounded switch -->
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
+
     <!-- Profile Card -->
     <div class="profile-card">
         <div class="profile-header">
-            <img src="{{ url_for('static', filename='pfp.png') }}" alt="Profile Picture" class="profile-image">
-        </div>       
+            <img src="{{ url_for('static', filename=user.profile_icon) if user.profile_icon else 'https://via.placeholder.com/150' }}" alt="Profile Picture" class="profile-image">
+        </div>   
+        <div class="profile-icon-selection">
+            <h3>Select Your Profile Icon</h3>
+            <form method="POST" action="{{ url_for('update_profile') }}">
+                <div class="icon-options">
+                    <label>
+                        <input type="radio" name="profile_icon" value="img1.jpeg" {% if user.profile_icon == 'img1.jpeg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='img1.jpeg') }}" alt="cool Icon" width="50">
+                    </label>
+                    <label>
+                        <input type="radio" name="profile_icon" value="img2.jpeg" {% if user.profile_icon == 'img2.jpeg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='img2.jpeg') }}" alt="happy Icon" width="50">
+                    </label>
+                    <label>
+                        <input type="radio" name="profile_icon" value="img3.jpeg" {% if user.profile_icon == 'img3.jpeg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='img3.jpeg') }}" alt="like Icon" width="50">
+                    </label>
+                    <label>
+                        <input type="radio" name="profile_icon" value="img4.jpeg" {% if user.profile_icon == 'img4.jpeg' %}checked{% endif %}>
+                        <img src="{{ url_for('static', filename='img4.jpeg') }}" alt="hungry Icon" width="50">
+                    </label>
+                </div>
+                <button type="submit" class="btn save-btn">Save Profile</button>
+            </form>
+        </div>    
         <div class="profile-content">
             <h1>Welcome, {{ user.username }}!</h1>
             <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Favorite Cuisines:</strong> {{ favorite_cuisines or 'Not specified' }}</p>
-            <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions or 'None' }}</p>
+            <p><strong>Favorite Cuisines:</strong> {{ favorite_cuisines | join(", ") or 'Not specified' }}</p>
+            <p><strong>Dietary Restrictions:</strong> {{ dietary_restrictions | join(", ") or 'None' }}</p>
             <p><strong>Account Created:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
             <p><strong>Last Updated:</strong> {{ user.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+    
+              
+        <h2>Recommendations</h2>
+        <div class="recommendations-container">
+            {% if recommendations %}
+                {% for rec in recommendations %}
+                    <div class="restaurant-card">
+                        <h3>{{ rec.name }}</h3>
+                        {% if rec.address %}
+                            <p><strong>Address:</strong> {{ rec.address }}</p>
+                        {% endif %}
+                        {% if rec.rating %}
+                            <p><strong>Rating:</strong> ⭐ {{ rec.rating }}</p>
+                        {% endif %}
+                        {% if rec.cuisine %}
+                            <p><strong>Cuisine:</strong> {{ rec.cuisine | join(', ') }}</p>
+                        {% endif %}
+                        {% if rec.phone %}
+                            <p><strong>Phone:</strong> {{ rec.phone }}</p>
+                        {% endif %}
+                        {% if rec.website %}
+                            <a href="{{ rec.website }}" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-results">No recommendations available. Update your preferences to get personalized suggestions!</p>
+            {% endif %}
         </div>
 
         <!-- Profile Actions -->
@@ -41,7 +106,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+        <p>&copy; 2024-2025 Are You Hungry? All rights reserved.</p>
     </footer>
 </body>
 </html>
