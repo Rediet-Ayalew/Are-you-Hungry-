@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script defer src="/static/css/scripts.js"></script> <!-- Link to external JS -->
+
+
     <style>
         html {
             scroll-behavior: smooth;
@@ -44,6 +47,9 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="topnav">
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
         <a href="/home">Home</a>
         <a href="/restaurants">Restaurants</a>
         {% if 'user_id' in session %}
@@ -58,6 +64,11 @@
 <div class="search-section">
     <input type="text" id="searchInput" placeholder="Search by cuisine or restaurant name..." />
 </div>
+        <!-- Rounded switch -->
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+    </label>
 
 <!-- Cuisine Buttons Section -->
 <div class="cuisine-buttons">
@@ -123,10 +134,32 @@
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2024 Are You Hungry? All rights reserved.</p>
+    <p>&copy; 2024-2025 Are You Hungry? All rights reserved.</p>
 </footer>
 
-<!-- JavaScript -->
+
+    <!-- Rating Popup -->
+    <div id="rating-popup" class="hidden">
+        <p>How would you rate your experience?</p>
+        
+        <div id="stars">
+            <span class="star" data-rating="1" aria-label="1 Star">★</span>
+            <span class="star" data-rating="2" aria-label="2 Stars">★</span>
+            <span class="star" data-rating="3" aria-label="3 Stars">★</span>
+            <span class="star" data-rating="4" aria-label="4 Stars">★</span>
+            <span class="star" data-rating="5" aria-label="5 Stars">★</span>
+        </div>
+
+        <button id="close-popup">Not Now</button>
+    </div>
+
+</body>
+</html>
+
+<div id="success-message" class="hidden"></div>
+
+
+<!-- JavaScript for restaurant -->
 <script>
     // Function to filter restaurants based on the search input
     function filterRestaurants() {
@@ -227,7 +260,88 @@
             targetSection.scrollIntoView({ behavior: 'smooth' });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const ratingPopup = document.getElementById("rating-popup");
+
+    // Show the rating popup after 10 seconds
+    setTimeout(showRatingPopup, 10000); 
+
+    function showRatingPopup() {
+        ratingPopup.classList.remove("hidden"); // Show rating popup
+        ratingPopup.classList.add("show-popup"); // Optional animation class
+    }
+
+    // Close the rating popup
+    document.getElementById("close-popup").addEventListener("click", function() {
+    document.getElementById("rating-popup").classList.add("hidden");
+    });
+
+
+    // Handle star rating selection
+    document.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", function() {
+            const rating = this.dataset.rating;
+            
+            // Highlight selected stars
+            document.querySelectorAll(".star").forEach(s => {
+                s.classList.remove("active");
+                if (s.dataset.rating <= rating) {
+                    s.classList.add("active");
+                }
+            });
+
+            // Send rating to backend
+            sendRating(rating);
+        });
+    });
+
+    document.querySelectorAll(".star").forEach(star => {
+    star.addEventListener("click", function() {
+        const rating = this.dataset.rating;
+
+        // Reset all stars first
+        document.querySelectorAll(".star").forEach(s => {
+            s.classList.remove("active");
+        });
+
+        // Add 'active' class to selected star and all previous ones
+        document.querySelectorAll(".star").forEach(s => {
+            if (s.dataset.rating <= rating) {
+                s.classList.add("active");
+            }
+        });
+
+        // Send rating to backend
+        sendRating(rating);
+           });
+        });
+
+
+        function sendRating(rating) {
+    fetch('/submit-rating', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rating: rating })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show custom success message
+        const successMessage = document.getElementById("success-message");
+        successMessage.textContent = `Thank you for rating us ${rating} stars! ⭐`;
+        successMessage.style.display = "block";
+
+        // Hide success message after 3 seconds
+        setTimeout(() => {
+            successMessage.style.display = "none";
+        }, 3000);
+
+        document.getElementById("rating-popup").classList.add("hidden");
+    })
+    .catch(error => console.error("Error submitting rating:", error));
+    }
+    });
+
 </script>
 </body>
 </html>
-
